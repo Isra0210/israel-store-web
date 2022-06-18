@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { Button, Col, Form, Image, ListGroup, Row } from "react-bootstrap";
 import { AiFillDelete } from "react-icons/ai";
 import { CartState } from "../context/Context";
+import Header from "../components/Header";
+import Announcement from "../components/Announcement";
+import Filters from "../components/Filters";
+import Product from "../components/Product";import Footer from "../components/Footer";
+import styled from "styled-components";
 
 const Cart = () => {
   const {
@@ -17,7 +22,9 @@ const Cart = () => {
   }, [cart]);
 
   return (
-    <div className="home">
+    <div>
+			<Header/>
+			<Announcement/>
       <div className="productContainer">
         <ListGroup>
           {cart.map((prod) => (
@@ -73,6 +80,7 @@ const Cart = () => {
           Proceed to Checkout
         </Button>
       </div>
+			<Footer/>
     </div>
   );
 };

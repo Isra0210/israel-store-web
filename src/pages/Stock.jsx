@@ -36,7 +36,12 @@ const Stock = () => {
 
     if (sort) {
       sortedProducts = sortedProducts.sort((a, b) =>
-        sort === "lowToHigh" ? a.price - b.price : b.price - a.price
+        sort === "lowToHigh" ? 
+					a.price - b.price 
+				: sort === "highToLow" 
+					? b.price - a.price
+				: 
+				sort === "az" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)
       );
     }
     return sortedProducts;
