@@ -25,7 +25,7 @@ export const stocks = [{
 	id: 1,
 	img: "https://fotos.socarrao.com.br/101477486/4701933/4701933Z4_1643834073_83_870.webp",
 	title: "Ford RANGER CD",
-	price: 117.900,
+	price: 117900,
 	images: [
 			"https://fotos.socarrao.com.br/101477486/4701933/4701933Z4_1643834073_83_870.webp",
 			"https://fotos.socarrao.com.br/101477486/4701933/4701933N_1643834073_66_170.webp",
@@ -41,7 +41,7 @@ export const stocks = [{
 	id: 2,
 	img: "https://fotos.socarrao.com.br/101557618/4792350/4792350Z4_1652270707_27_10.webp",
 	title: "Ford FUSION",
-	price: 73.900,
+	price: 73900,
 	images: [
 			"https://fotos.socarrao.com.br/101557618/4792350/4792350N_1653617075_47_490.webp",
 			"https://fotos.socarrao.com.br/101557618/4792350/4792350N_1653617076_10_360.webp",
@@ -57,7 +57,7 @@ export const stocks = [{
 	id: 3,
 	img: "https://fotos.socarrao.com.br/101086496/4745854/4745854Z4_1648748692_52_790.webp",
 	title: "GM - Chevrolet SPIN",
-	price: 89.500,
+	price: 89500,
 	images: [
 			"https://fotos.socarrao.com.br/101086496/4745854/4745854N_1648748692_52_790.webp",
 			"https://fotos.socarrao.com.br/101086496/4745854/4745854N_1648748692_95_910.webp",
@@ -73,7 +73,7 @@ export const stocks = [{
 	id: 4,
 	img: "https://fotos.socarrao.com.br/101080306/4831723/4831723Z4_1652789632_13_980.webp",
 	title: "Fiat GRAND SIENA",
-	price: 53.900,
+	price: 53900,
 	images: [
 			"https://fotos.socarrao.com.br/101080306/4831723/4831723N_1652789632_13_980.webp",
 			"https://fotos.socarrao.com.br/101080306/4831723/4831723N_1652789632_87_150.webp",
@@ -89,7 +89,7 @@ export const stocks = [{
 	id: 5,
 	img: "https://fotos.socarrao.com.br/101080306/4805524/4805524Z4_1651063137_68_510.webp",
 	title: "Renault DUSTER",
-	price: 74.900,
+	price: 74900,
 	images: [
 			"https://fotos.socarrao.com.br/101080306/4805524/4805524Z4_1651063137_68_510.webp",
 			"https://fotos.socarrao.com.br/101080306/4805524/4805524Z4_1651063137_82_280.webp",
@@ -105,7 +105,7 @@ export const stocks = [{
 	id: 6,
 	img: "https://fotos.socarrao.com.br/101086496/4816304/4816304Z4_1651694730_9_20.webp",
 	title: "Fiat TORO",
-	price: 114.500,
+	price: 114500,
 	images: [
 			"https://fotos.socarrao.com.br/101086496/4816304/4816304N_1651694730_9_20.webp",
 			"https://fotos.socarrao.com.br/101086496/4816304/4816304N_1651694730_58_360.webp",
@@ -121,7 +121,7 @@ export const stocks = [{
 	id: 7,
 	img: "https://fotos.socarrao.com.br/101080306/4822618/4822618Z4_1652270023_30_760.webp",
 	title: "Volkswagen JETTA",
-	price: 78.500,
+	price: 78500,
 	images: [
 			"https://fotos.socarrao.com.br/101080306/4822618/4822618Z4_1653660766_36_530.webp",
 			"https://fotos.socarrao.com.br/101080306/4822618/4822618Z4_1653660768_5_770.webp",
@@ -137,7 +137,7 @@ export const stocks = [{
 	id: 8,
 	img: "https://fotos.socarrao.com.br/137967/4617558/4617558Z4_1638192901_1_90.webp",
 	title: "JEEP COMPASS",
-	price: 199.900,
+	price: 199900,
 	images: [
 			"https://fotos.socarrao.com.br/137967/4617558/4617558Z4_1638192901_1_90.webp",
 			"https://fotos.socarrao.com.br/137967/4617558/4617558Z4_1638192901_33_820.webp",
@@ -153,7 +153,7 @@ export const stocks = [{
 	id: 9,
 	img: "https://fotos.socarrao.com.br/101550425/4822520/4822520Z4_54239600_1652192782_1065_0.webp",
 	title: "Troller T-4",
-	price: 108.900,
+	price: 108900,
 	images: [
 			"https://fotos.socarrao.com.br/101550425/4822520/4822520Z4_54239600_1652192782_1065_0.webp",
 			"https://fotos.socarrao.com.br/101550425/4822520/4822520Z4_86716000_1652192799_7787_0.webp",
@@ -169,7 +169,7 @@ export const stocks = [{
 	id: 10,
 	img: "https://fotos.socarrao.com.br/101317328/4470138/4470138Z4_1649181716_17_890.webp",
 	title: "Chevrolet S10",
-	price: 199.000,
+	price: 199000,
 	images: [
 			"https://fotos.socarrao.com.br/101317328/4470138/4470138N_1649181716_17_890.webp",
 			"https://fotos.socarrao.com.br/101317328/4470138/4470138N_1649181716_2_100.webp",
@@ -185,7 +185,7 @@ export const stocks = [{
 	id: 11,
 	img: "https://fotos.socarrao.com.br/101589137/4787357/4787357Z4_64360300_1649747452_490_0.webp",
 	title: "BMW 320i",
-	price: 285.000,
+	price: 285000,
 	images: [
 			"https://fotos.socarrao.com.br/101589137/4787357/4787357N_64360300_1649747452_490_0.webp",
 			"https://fotos.socarrao.com.br/101589137/4787357/4787357N_48894000_1649747461_10090_0.webp",
@@ -201,7 +201,7 @@ export const stocks = [{
 	id: 12,
 	img: "https://fotos.socarrao.com.br/254810/4816241/4816241N_1651693260_63_200.webp",
 	title: "Renault DUSTER",
-	price: 112.900,
+	price: 112900,
 	images: [
 			"https://fotos.socarrao.com.br/254810/4816241/4816241N_1651693260_63_200.webp",
 			"https://fotos.socarrao.com.br/254810/4816241/4816241N_1651693261_16_630.webp",

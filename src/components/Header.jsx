@@ -65,7 +65,7 @@ const Header = () => {
 						<Link to="/" style={{"textDecoration": "none", "color": "black"}}>
 							<MenuItem>HOME</MenuItem>
 						</Link>
-						<Link to="/products-list" style={{"textDecoration": "none", "color": "black"}}>
+						<Link to="/stock" style={{"textDecoration": "none", "color": "black"}}>
 							<MenuItem>ESTOQUE</MenuItem>
 						</Link>
 						<Link to="/contact" style={{"textDecoration": "none", "color": "black"}}>
