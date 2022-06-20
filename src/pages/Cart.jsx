@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-// import { Button, Col, Form, Image,
-import { ListGroup, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { AiOutlinePlus, AiOutlineMinus, AiFillDelete } from "react-icons/ai";
 import { CartState } from "../context/Context";
 import Header from "../components/Header";
@@ -305,7 +304,9 @@ const Cart = () => {
                <SummaryItemText>Total</SummaryItemText>
                <SummaryItemPrice>{formatPrice(total- (total * 0.01) + (total * 0.05))}</SummaryItemPrice>
              </SummaryItem>
-             <Button>Finalizar compra</Button>
+						 <Link to="/checkout" style={{"textDecoration": "none", "color": "black"}}>
+             	<Button>Fazer Checkout</Button>
+						</Link>
            </Summary> 
 	 			</Bottom>
 	 		</Wrapper> 

@@ -5,6 +5,7 @@ import Stock from "./pages/Stock";
 import Contact from "./pages/Contact";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Checkout from "./pages/Checkout";
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
 				<Route path="/login">
           <Login />
         </Route>
+				<Route path="/checkout">
+					<Checkout/>
+				</Route>
       </div>
     </BrowserRouter>
   );

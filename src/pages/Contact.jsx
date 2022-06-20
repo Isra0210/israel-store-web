@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import Header from "../components/Header";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
+import { useState } from 'react';
+import validator from 'validator';
+import toast from 'react-simple-toasts';
 
 const Container = styled.div`
 	padding: 40px;
@@ -74,7 +77,67 @@ const TextArea = styled.textarea`
 	}
 `;
 
+const ErrorMessage = styled.div`
+	font-size: 16px;
+	color: red;
+	display: flex;
+	font-weight: 400;
+`;
+
 const Contact = () => {
+	const [error, setError] = useState("");
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [subject, setSubject] = useState("");
+	const [message, setMessage] = useState("");
+	
+	const fieldMandatory = "Campo obrigatório!";
+	const fieldMinFiveChar = "Campo precisa de pelo menos 5 caracter!";
+	
+	const validateFields = () => {
+		return name.length !== 0 && email.length !== 0 
+					&& subject.length !== 0 && message.length !== 0
+	}
+	
+	const validateEmail = (e) => {
+    var email = e.target.value
+  
+    if (email.length === 0) {
+      setError(fieldMandatory);
+    } 
+		if(!validator.isEmail(email)){
+      setError('Enter valid Email!');
+    }else {
+			setError('');
+		}
+  }
+	
+	const validateField = (e) => {
+		var field = e.target.value
+
+		if(field.length === 0){
+			setError(fieldMandatory);
+		} else if(field.length < 6){
+			setError(fieldMinFiveChar);
+		} else {
+			setError("");
+		}
+	}
+	
+	const notify = () => {
+		if(error.length === 0 && validateFields() && validator.isEmail(email)){
+			toast('Contato enviado com sucesso!');
+			setEmail("");
+			setName("");
+			setMessage("");
+			setSubject("");
+		}
+	}
+	
+	const submitHandler = (e) => {
+		e.preventDefault(); 
+	}
+	
 	return (
 		<div>
 			<Header/>
@@ -82,14 +145,50 @@ const Contact = () => {
 			<Container>
 				<Wrapper>
 					<Title>Solicitar contato</Title>
-					<Form>
-						<Input placeholder="Nome completo"required/>
-						<Input placeholder="E-mail" type="email" 
-						name="email" 
-						id="email" required/>
-						<Input placeholder="Assunto" required/>
-						<TextArea name="" id="" cols="30" rows="10" placeholder="Mensagem"/>
-						<Button type="submit">Registrar</Button>
+					<Form onSubmit={submitHandler}>
+						<Input placeholder="Nome completo"
+							name="name" 
+							id="name" 
+							value={name}
+							onChange={(e) => {
+								setName(e.target.value);
+								validateField(e);
+							}}
+						/>
+						<Input
+							type="email" 
+							name="email" 
+							id="email" 
+							placeholder="Seu melhor email"
+							value={email}
+							onChange={(e) => {
+								setEmail(e.target.value);
+								validateEmail(e);
+							}}
+						/>
+						<Input placeholder="Assunto" 
+							name="subject" 
+							id="subject" 
+							value={subject}
+							onChange={(e) => {
+								setSubject(e.target.value);
+								validateField(e);
+							}}
+						/>
+						<TextArea 
+							name="message" 
+							id="message" 
+							cols="30"
+							rows="10" 
+							placeholder="Mensagem"
+							value={message}
+							onChange={(e) => {
+								setMessage(e.target.value);
+								validateField(e);
+							}}
+						/>
+						<ErrorMessage>{error}</ErrorMessage>
+						<Button type="submit" onClick={notify}>Registrar</Button>
 					</Form>
 				</Wrapper>		
 		 	</Container>

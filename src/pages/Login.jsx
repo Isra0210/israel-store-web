@@ -154,7 +154,7 @@ const Login = () => {
 							</Link>
 						</Button>
 						<Button type="submit" color="fff">
-							<Link to={`/${details.email}`} style={{"textDecoration": "none", "color": "black"}}>
+							<Link to={`/`} style={{"textDecoration": "none", "color": "black"}}>
 								Entrar
 							</Link>
 						</Button>
