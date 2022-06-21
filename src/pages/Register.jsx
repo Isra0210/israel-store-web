@@ -1,13 +1,17 @@
 import styled from "styled-components"
 import { v4 as uuid } from 'uuid';
-
+import { useState } from 'react';
+import toast from 'react-simple-toasts';
+import validator from 'validator';
+import { cpf } from 'cpf-cnpj-validator'; 
+import Moment from 'moment';
 
 const Container = styled.div`
-	width: 100vw;
+	align-content: center;
+	justify-content: center;
+	width: 99vw;
 	height: 100vh;
 	display: flex;
-	align-items: center;
-	justify-content: center;
 	background-color: #54626F;
 	background: url("https://garagem360.com.br/wp-content/uploads/2021/07/dd97b0fbf74d706b33c7215476c1c755.jpeg");
 `;
@@ -20,13 +24,8 @@ const Title = styled.h1`
 `;
 
 const Wrapper = styled.div`
-	width: 30%;
-	height: 80%;
+	width: 40%;
 	padding: 20px;
-	background-color: white;
-	padding: 20px 30px;
-	box-shadow: 1px 1px 1px 2px black;
-	border-radius: 20px;
 	align-items: center;
 	justify-content: center;
 `;
@@ -46,15 +45,17 @@ const Input = styled.input`
 		outline: none;
 	}
 `;
+
 const Agreement = styled.span`
 	padding: 30px 10px;
 	font-size: 12px;
 	font-weight: 300;
+	margin-top: 20px;
 `;
 
 const Button = styled.button`
-	margin: 30px;
 	padding: 8px;
+	margin-top: 30px;
 	cursor: pointer;
 	background-color: white;
 	border: 1px solid #54626F;
@@ -68,25 +69,291 @@ const Button = styled.button`
 	}
 `;
 
+const Div = styled.div`
+	height: 80%;
+	width: 70%;
+	display: flex;
+	align-items: start;
+	margin: 30px;
+	justify-content: space-between;
+	background-color: white;
+	box-shadow: 1px 1px 1px 2px black;
+	border-radius: 20px;
+`;
+
+const ErrorMessage = styled.div`
+	font-size: 16px;
+	color: red;
+	display: flex;
+	font-weight: 400;
+`;
+
 const Register = () => {
-	const unique_id = uuid();
+	// const unique_id = uuid();
+	const [error, setError] = useState("");
+	const [name, setName] = useState("");
+	const [userCpf, setUserCpf] = useState("");
+	const [email, setEmail] = useState("");
+	const [birthDate, setBirthDate] = useState("");
+	const [password, setPassword] = useState("");
+	const [cep, setCep] = useState("");
+	const [street, setStreet] = useState("");
+	const [neighborhood, setNeighborhood] = useState("");
+	const [city, setCity] = useState("");
+	const [uf, setUf] = useState("");
+	const [number, setNumber] = useState("");
+	
+	const fieldMandatory = "Campo obrigatório!";
+	const fieldMinFiveChar = "Campo precisa de pelo menos 5 caracter!";
+	
+	const validateFields = () => {
+		return name.length !== 0 && cpf.length !== 0 
+					&& email.length !== 0 && birthDate.length !== 0
+					&& password.length !== 0 && cep.length !== 0
+					&& street.length !== 0 && neighborhood.length !== 0
+					&& city.length !== 0 && city.length !== 0
+					&& uf.length !== 0 && number.length !== 0
+	}
+	
+	const validateField = (e) => {
+		var field = e.target.value;
+
+		if(field.length === 0){
+			setError(fieldMandatory);
+		} else if(field.length < 6){
+			setError(fieldMinFiveChar);
+		} else {
+			setError("");
+		}
+	}
+	
+	const validatePassword = (e) => {
+		var pass = e.target.value;
+
+		if(pass.length === 0){
+			setError(fieldMandatory);
+		} else if(pass.length < 8){
+			setError("Senha precisa de no mínimo 8 caracter!");
+		} else {
+			setError("");
+		}
+	}
+	
+	const validateBirthDate = (e) => {
+		var date = e.target.value;
+		date=date.split("/");
+		var bday_in_milliseconds = new Date(parseInt(date[2], 10), parseInt(date[1], 10) - 1 , parseInt(date[0]), 10).getTime(); //birth-date in milliseconds
+		var now = new Date().getTime(); 
+		
+		if (birthDate === "" || birthDate.length === 0){
+			setError(fieldMandatory);
+		} else if(now - bday_in_milliseconds < 567648000000){ 
+			setError("Você precisa ter ao menos 18 anos!");
+		}
+		else{
+			setError("");
+		}
+	}
+	
+	const notify = () => {
+		if(error.length === 0 && validateFields() && validator.isEmail(email)){
+			toast('Registrado com sucesso!');
+			setError("");
+			setName("");
+			setUserCpf("");
+			setEmail("");
+			setBirthDate("");
+			setPassword("");
+			setCep("");
+			setStreet("");
+			setNeighborhood("");
+			setCity("");
+			setUf("");
+			setNumber("");
+		} else {
+			setError("Informações inválidas!");
+		}
+	}
+	
+	const validateEmail = (e) => {
+    var email = e.target.value
+  
+    if (email.length === 0) {
+      setError(fieldMandatory);
+    } 
+		if(!validator.isEmail(email)){
+      setError('Enter valid Email!');
+    }else {
+			setError('');
+		}
+  }
+	
+	const validateCpf = (e) => {
+    var cpfParam = e.target.value;
+		const isValid = cpf.isValid(cpfParam);
+    if (cpfParam.length === 0) {
+      setError(fieldMandatory);
+    } else if(!isValid) {
+			setError("CPF inválido!");
+		} else {
+			setError('');
+		}
+  }
+	
+	const validateAddress = (e) => {
+		var field = e.target.value;
+
+		if(field.length === 0){
+			setError(fieldMandatory);
+		} else {
+			setError("");
+		}
+	}
+
+	const submitHandler = (e) => {
+		e.preventDefault(); 
+	}
+	
 	return (
 		<Container>
-			<Wrapper>
-				<Title>CADASTRO</Title>
-				<Form>
-					<Input placeholder="Primeiro nome"required/>
-					<Input placeholder="Último nome" required/>
-					<Input placeholder="E-mail" required/>
-					<Input placeholder="Senha" required/>
-					<Input placeholder="Confirmação de senha" required/>
-					<Agreement>
-						Ao criar a conta estará aceitando nossa <b>Politica de Privacidade </b>
-						e <b>Termos de uso</b>
-					</Agreement>
-					<Button type="submit">Registrar</Button>
-				</Form>
-			</Wrapper>			
+			<Div>
+				<Wrapper>
+					<Title>Cadastro</Title>
+					<Form onSubmit={submitHandler}>
+						<Input placeholder="Nome completo" 
+							required
+							name="name" 
+							id="name" 
+							value={name}
+							onChange={(e) => {
+								setName(e.target.value);
+								validateField(e);
+							}}
+						/>
+						<Input placeholder="CPF" 
+							required
+							type="text"
+							name="text" 
+							id="text"
+							pattern="[0-9]"
+							value={userCpf.replace(/\D/,'')}
+							onChange={(e) => {
+								setUserCpf(e.target.value);
+								validateCpf(e);
+							}}
+						/>
+						<Input placeholder="E-mail" 
+							required
+							type="email" 
+							name="email" 
+							id="email" 
+							value={email}
+							onChange={(e) => {
+								setEmail(e.target.value);
+								validateEmail(e);
+							}}
+						/>
+						<Input placeholder="Data de nascimento [dd/mm/yyyy]" 
+							required
+							name="birthDate" 
+							id="birthDate" 
+							value={birthDate.replace(/[a-zA-Z\u00C0-\u00FF ]+/i,'')}
+							onChange={(e) => {
+								setBirthDate(e.target.value);
+								validateBirthDate(e);
+							}}
+						/>
+						<Input placeholder="Senha" 
+							required
+							type="password" 
+							name="password" 
+							id="password" 
+							value={password}
+							onChange={(e) => {
+								setPassword(e.target.value);
+								validatePassword(e);
+							}}
+						/>
+						<Agreement>
+							Ao criar a conta estará aceitando nossa <b>Politica de Privacidade </b>
+							e <b>Termos de uso</b>
+						</Agreement>
+						<ErrorMessage>{error}</ErrorMessage>
+					</Form>
+				</Wrapper>			
+				<Wrapper>
+					<Title>Endereço</Title>
+					<Form onSubmit={submitHandler}>
+						<Input placeholder="CEP" 
+							required
+							disabled={cep.length !== 0 || cep !== ""}
+							name="cep" 
+							id="cep" 
+							value={cep.replace(/\D/,'')}
+							onChange={(e) => {
+								setCep(e.target.value);
+								validateAddress(e);
+							}}
+						/>
+						<Input placeholder="Rua" 
+							required
+							disabled={street.length !== 0 || street !== ""}
+							name="street" 
+							id="street" 
+							value={street}
+							onChange={(e) => {
+								setStreet(e.target.value);
+								validateAddress(e);
+							}}
+						/>
+						<Input placeholder="Bairro" 
+							required
+							disabled={neighborhood.length !== 0 || neighborhood !== ""}
+							name="neighborhood" 
+							id="neighborhood" 
+							value={neighborhood}
+							onChange={(e) => {
+								setNeighborhood(e.target.value);
+								validateAddress(e);
+							}}
+						/>
+						<Input placeholder="Cidade" 
+							required
+							disabled={city.length !== 0 || city !== ""}
+							name="city" 
+							id="city" 
+							value={city}
+							onChange={(e) => {
+								setCity(e.target.value);
+								validateAddress(e);
+							}}
+						/>
+						<Input placeholder="UF"
+							required
+							disabled={uf.length !== 0 || uf !== ""}
+							name="uf" 
+							id="uf" 
+							value={uf}
+							onChange={(e) => {
+								setUf(e.target.value);
+								validateAddress(e);
+							}}
+						/>
+						<Input placeholder="Número"
+							required
+							disabled={number.length !== 0 || number !== ""}
+							name="number" 
+							id="number" 
+							value={number}
+							onChange={(e) => {
+								setNumber(e.target.value);
+								validateAddress(e);
+							}}
+						/>
+						<Button onClick={notify} type="submit">Registrar</Button>
+					</Form>
+				</Wrapper>
+			</Div>
 		</Container>
 	)
 }

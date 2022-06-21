@@ -131,6 +131,8 @@ const Contact = () => {
 			setName("");
 			setMessage("");
 			setSubject("");
+		} else {
+			setError("Informações inválidas!");
 		}
 	}
 	

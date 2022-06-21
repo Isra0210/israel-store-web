@@ -3,6 +3,7 @@ import Carousel from "./Carousel";
 import { Close } from '@material-ui/icons';
 import { CartState } from "../context/Context";
 import { formatPrice } from "../context/Utils";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
 	height: 90vh;
@@ -152,8 +153,12 @@ const ProductDetails = ({prod, onClose}) => {
 				<DetailsInfo>Cor: {prod.color}</DetailsInfo>
 			</Details>
 			<FinancingContainer>
-				<SendMessage>Enviar mensagem</SendMessage>
-				<FinancingSimulation>Simular Financiamento</FinancingSimulation>
+				<Link to="/contact" style={{"textDecoration": "none", "color": "black"}}>
+					<SendMessage>Enviar mensagem</SendMessage>
+				</Link>
+				<Link to="/contact" style={{"textDecoration": "none", "color": "black"}}>
+					<FinancingSimulation>Simular Financiamento</FinancingSimulation>
+				</Link>
 				{
 					cart.some((p) => p.id === prod.id) ?
 						<RemoveToCartButton
