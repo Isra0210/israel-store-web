@@ -216,11 +216,18 @@ export const stocks = [{
 ];
 
 export const users = [{
-id: "20",
-first_name: "Israel",
-last_name: "Rodrigues",
-email: "teste@gmail.com",
-password: "teste123",
+id: "1",
+name: "Israel Rodrigues",
+cpf: "12345678910",
+email: "israel@gmail.com", 
+birthDate: "02102000",
+password: "teste1234",
+cep: "84010660",
+street: "Manoel Ferreira Pinto",
+neighborhood: "Centro",
+uf: "PR",
+city: "Ponta Grossa",
+number: "358",
 cart: [{
 			quantity: 1,
 			id: 12,

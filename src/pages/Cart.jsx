@@ -122,7 +122,7 @@ const Summary = styled.div`
   border: 0.5px solid lightgray;
   border-radius: 10px;
   padding: 20px;
-  height: 55vh;
+  height: 60vh;
 `;
 
 const SummaryTitle = styled.h1`
@@ -199,6 +199,17 @@ const DeletedButton = styled.button`
 	box-shadow: 1px 1px 3px black;
 `;
 
+const CouponDiscount = styled.input`
+		height: 20px;
+		width: 96%;
+		align-items: center;
+		justify-content: center;
+		border-radius: 18px;
+		border: 1px solid black;
+		margin: 10px 0px;
+		padding: 5px;
+`;
+	
 const Cart = () => {
   const {
     state: { cart },
@@ -206,12 +217,20 @@ const Cart = () => {
   } = CartState();
 
 	const [total, setTotal] = useState();
+	const [discount, setDiscount] = useState("");
+	const [valueDiscount, setValueDiscount] = useState(0);
 	
   useEffect(() => {
     setTotal(
       cart.reduce((acc, curr) => acc + Number(curr.price) * curr.qty, 0)
     );
   }, [cart]);
+	
+	function applyCoupon() {
+		if(discount.toUpperCase() === "UTFPR"){
+			return total - valueDiscount;
+		} else return total;
+	}
 	
   return (
     <div>
@@ -298,13 +317,29 @@ const Cart = () => {
              </SummaryItem>
              <SummaryItem>
                <SummaryItemText>Desconto</SummaryItemText>
-               <SummaryItemPrice>{formatPrice(total * 0.01)}</SummaryItemPrice>
+               <SummaryItemPrice>
+								{cart.length !== 0 ? discount.toUpperCase() === "UTFPR" 
+									? formatPrice(valueDiscount) 
+									: formatPrice(0) : formatPrice(0)
+								}
+								</SummaryItemPrice>
              </SummaryItem>
              <SummaryItem type="total">
                <SummaryItemText>Total</SummaryItemText>
-               <SummaryItemPrice>{formatPrice(total- (total * 0.01) + (total * 0.05))}</SummaryItemPrice>
+               <SummaryItemPrice>
+								{cart.length !== 0 ? formatPrice(applyCoupon() + (total * 0.05)) : formatPrice(0)}
+							</SummaryItemPrice>
              </SummaryItem>
-						 <Link to="/checkout" style={{"textDecoration": "none", "color": "black"}}>
+							<CouponDiscount 
+								type="text" 
+								placeholder="CUPOM DE DESCONTO"
+								value={discount.toUpperCase()}
+								onChangeCapture={(e) => {
+									setDiscount(e.target.value);
+									setValueDiscount(total * 0.15);
+								}}
+								/>
+						 	<Link to="/checkout" style={{"textDecoration": "none", "color": "black"}}>
              	<Button>Fazer Checkout</Button>
 						</Link>
            </Summary> 

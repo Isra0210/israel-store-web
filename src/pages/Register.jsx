@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-simple-toasts';
 import validator from 'validator';
 import { cpf } from 'cpf-cnpj-validator'; 
+import { users } from '../data/data';
 
 const Container = styled.div`
 	align-content: center;
@@ -49,7 +50,6 @@ const Agreement = styled.span`
 	padding: 30px 10px;
 	font-size: 12px;
 	font-weight: 300;
-	margin-top: 20px;
 `;
 
 const Button = styled.button`
@@ -103,9 +103,14 @@ const Register = () => {
 	const [uf, setUf] = useState("");
 	const [auxUf, setAuxUf] = useState("");
 	const [number, setNumber] = useState("");
+	const [ localUsers, setLocalUsers ] = useState([]);
 	
 	const fieldMandatory = "Campo obrigatório!";
 	const fieldMinFiveChar = "Campo precisa de pelo menos 5 caracter!";
+	
+	useEffect(() => {
+		setLocalUsers(users);
+	}, [localUsers]);
 	
 	const validateFields = () => {
 		return name.length !== 0 && cpf.length !== 0 
@@ -172,20 +177,40 @@ const Register = () => {
 			setAuxStreet("");
 			setAuxUf("");
 			//TODO build user object after do redirect to login
+			localUsers.push({
+				id: uuid(),
+				name: name,
+				cpf: userCpf,
+				email: email, 
+				birthDate: birthDate,
+				password: password,
+				cep: cep,
+				street: street.length !== 0 ? street : auxStreet,
+				neighborhood: neighborhood.length !== 0 ? neighborhood : auxNeighborhood,
+				uf: uf.length !== 0 ? uf : auxUf,
+				city: city,
+				number: number,
+			});
+			localStorage.setItem('users', JSON.stringify(localUsers));
 		} else {
+			console.log(JSON.parse(localStorage.getItem("users")));
 			setError("Informações inválidas!");
 		}
 	}
 	
 	const checkCEP = (e) => {
     const cep = e.target.value.replace(/\D/g, '');
-    fetch(`https://viacep.com.br/ws/${cep}/json/`).then(res => res.json()).then(data => {
+    try{
+			fetch(`https://viacep.com.br/ws/${cep}/json/`).then(res => res.json()).then(data => {
       setCep(data.cep);
       setNeighborhood(data.bairro);
       setStreet(data.logradouro);
       setUf(data.uf);
 			setCity(data.localidade);
     });
+		} catch(e){
+			console.log(e);
+		}
   }
 	
 	const validateEmail = (e) => {
