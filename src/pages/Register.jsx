@@ -1,10 +1,9 @@
 import styled from "styled-components"
 import { v4 as uuid } from 'uuid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-simple-toasts';
 import validator from 'validator';
 import { cpf } from 'cpf-cnpj-validator'; 
-import Moment from 'moment';
 
 const Container = styled.div`
 	align-content: center;
@@ -89,7 +88,6 @@ const ErrorMessage = styled.div`
 `;
 
 const Register = () => {
-	// const unique_id = uuid();
 	const [error, setError] = useState("");
 	const [name, setName] = useState("");
 	const [userCpf, setUserCpf] = useState("");
@@ -98,9 +96,12 @@ const Register = () => {
 	const [password, setPassword] = useState("");
 	const [cep, setCep] = useState("");
 	const [street, setStreet] = useState("");
+	const [auxStreet, setAuxStreet] = useState("");
 	const [neighborhood, setNeighborhood] = useState("");
+	const [auxNeighborhood, setAuxNeighborhood] = useState("");
 	const [city, setCity] = useState("");
 	const [uf, setUf] = useState("");
+	const [auxUf, setAuxUf] = useState("");
 	const [number, setNumber] = useState("");
 	
 	const fieldMandatory = "Campo obrigatório!";
@@ -109,10 +110,7 @@ const Register = () => {
 	const validateFields = () => {
 		return name.length !== 0 && cpf.length !== 0 
 					&& email.length !== 0 && birthDate.length !== 0
-					&& password.length !== 0 && cep.length !== 0
-					&& street.length !== 0 && neighborhood.length !== 0
-					&& city.length !== 0 && city.length !== 0
-					&& uf.length !== 0 && number.length !== 0
+					&& password.length !== 0 && cep.length !== 0;
 	}
 	
 	const validateField = (e) => {
@@ -142,7 +140,7 @@ const Register = () => {
 	const validateBirthDate = (e) => {
 		var date = e.target.value;
 		date=date.split("/");
-		var bday_in_milliseconds = new Date(parseInt(date[2], 10), parseInt(date[1], 10) - 1 , parseInt(date[0]), 10).getTime(); //birth-date in milliseconds
+		var bday_in_milliseconds = new Date(parseInt(date[2], 10), parseInt(date[1], 10) - 1 , parseInt(date[0]), 10).getTime();
 		var now = new Date().getTime(); 
 		
 		if (birthDate === "" || birthDate.length === 0){
@@ -170,10 +168,25 @@ const Register = () => {
 			setCity("");
 			setUf("");
 			setNumber("");
+			setAuxNeighborhood("");
+			setAuxStreet("");
+			setAuxUf("");
+			//TODO build user object after do redirect to login
 		} else {
 			setError("Informações inválidas!");
 		}
 	}
+	
+	const checkCEP = (e) => {
+    const cep = e.target.value.replace(/\D/g, '');
+    fetch(`https://viacep.com.br/ws/${cep}/json/`).then(res => res.json()).then(data => {
+      setCep(data.cep);
+      setNeighborhood(data.bairro);
+      setStreet(data.logradouro);
+      setUf(data.uf);
+			setCity(data.localidade);
+    });
+  }
 	
 	const validateEmail = (e) => {
     var email = e.target.value
@@ -214,6 +227,18 @@ const Register = () => {
 		e.preventDefault(); 
 	}
 	
+	useEffect(() => {
+		if(neighborhood.length > 0){
+			setAuxNeighborhood(neighborhood);
+		}
+		if(street.length > 0){
+			setAuxStreet(street);
+		}
+		if(uf.length > 0){
+			setAuxUf(uf);
+		}
+	});
+	
 	return (
 		<Container>
 			<Div>
@@ -236,11 +261,13 @@ const Register = () => {
 							name="text" 
 							id="text"
 							pattern="[0-9]"
+							mask="000.000.000-00"
 							value={userCpf.replace(/\D/,'')}
-							onChange={(e) => {
+							onChange= {(e) => {
 								setUserCpf(e.target.value);
-								validateCpf(e);
-							}}
+									validateCpf(e);
+								}
+							}
 						/>
 						<Input placeholder="E-mail" 
 							required
@@ -286,9 +313,10 @@ const Register = () => {
 					<Form onSubmit={submitHandler}>
 						<Input placeholder="CEP" 
 							required
-							disabled={cep.length !== 0 || cep !== ""}
 							name="cep" 
 							id="cep" 
+							onBlur={checkCEP}
+							{...cep}	
 							value={cep.replace(/\D/,'')}
 							onChange={(e) => {
 								setCep(e.target.value);
@@ -297,29 +325,31 @@ const Register = () => {
 						/>
 						<Input placeholder="Rua" 
 							required
-							disabled={street.length !== 0 || street !== ""}
+							disabled={street.length > 0}
 							name="street" 
-							id="street" 
-							value={street}
+							id="street"
+							{...street} 
+							value={auxStreet}
 							onChange={(e) => {
-								setStreet(e.target.value);
+								setAuxStreet(e.target.value);
 								validateAddress(e);
 							}}
 						/>
 						<Input placeholder="Bairro" 
 							required
-							disabled={neighborhood.length !== 0 || neighborhood !== ""}
+							disabled={neighborhood.length > 0}
 							name="neighborhood" 
 							id="neighborhood" 
-							value={neighborhood}
+							{...neighborhood}
+							value={auxNeighborhood}
 							onChange={(e) => {
-								setNeighborhood(e.target.value);
+								setAuxNeighborhood(e.target.value);
 								validateAddress(e);
 							}}
 						/>
 						<Input placeholder="Cidade" 
 							required
-							disabled={city.length !== 0 || city !== ""}
+							disabled={city.length !== 0}
 							name="city" 
 							id="city" 
 							value={city}
@@ -330,18 +360,18 @@ const Register = () => {
 						/>
 						<Input placeholder="UF"
 							required
-							disabled={uf.length !== 0 || uf !== ""}
+							disabled={uf.length > 0}
 							name="uf" 
 							id="uf" 
-							value={uf}
+							{...uf}
+							value={auxUf}
 							onChange={(e) => {
-								setUf(e.target.value);
+								setAuxUf(e.target.value);
 								validateAddress(e);
 							}}
 						/>
 						<Input placeholder="Número"
 							required
-							disabled={number.length !== 0 || number !== ""}
 							name="number" 
 							id="number" 
 							value={number}
