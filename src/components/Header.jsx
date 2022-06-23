@@ -54,8 +54,8 @@ const MenuItem = styled.div`
 const Header = () => {
   const {
     state: { cart },
-    dispatch,
-    productDispatch,
+    // dispatch,
+    // productDispatch,
   } = CartState();
 
 	const [user, setUser] = useState({}); 
