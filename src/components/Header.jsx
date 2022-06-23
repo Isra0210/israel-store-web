@@ -3,7 +3,7 @@ import { CartState } from "../context/Context";
 import { Badge } from '@material-ui/core'
 import { ShoppingCartOutlined } from '@material-ui/icons'
 import styled from 'styled-components'
-
+import { useState, useEffect } from "react";
 
 const Container = styled.div `
 	height: 100px;
@@ -58,6 +58,21 @@ const Header = () => {
     productDispatch,
   } = CartState();
 
+	const [user, setUser] = useState({}); 
+	
+	useEffect(() => {
+		if(localStorage.hasOwnProperty('login')){
+			setUser(JSON.parse(localStorage.getItem("login")));
+		}
+	}, []);
+	
+	const logout = () => {
+		localStorage.removeItem('login', JSON.stringify(user));
+		setUser({});
+		console.log(user);
+		// console.log(JSON.parse(localStorage.getItem("login")));
+	}
+	
   return (
 		<Container>
         <Wrapper>
@@ -74,12 +89,21 @@ const Header = () => {
 					</Left>
 					<Center><Logo>Israel's Store</Logo> </Center>
 					<Right>
-						<Link to="/register" style={{"textDecoration": "none", "color": "black"}}>
-							<MenuItem>CADASTRAR</MenuItem>
-						</Link>
-						<Link to="/login" style={{"textDecoration": "none", "color": "black"}}>
-							<MenuItem>LOGIN</MenuItem>
-						</Link>
+						{
+							Object.keys(user).length === 0 ? 
+							<>
+								<Link to="/register" style={{"textDecoration": "none", "color": "black"}}>
+									<MenuItem>CADASTRAR</MenuItem>
+								</Link>
+								<Link to="/login" style={{"textDecoration": "none", "color": "black"}}>
+									<MenuItem>LOGIN</MenuItem>
+								</Link>
+							</> 
+							: 
+							<Link to="/login" style={{"textDecoration": "none", "color": "black"}}>
+								<MenuItem onClick={logout}>SAIR</MenuItem>
+							</Link>
+						}
 						<Link to="/cart" style={{"textDecoration": "none", "color": "black"}}>
 							<MenuItem>
 								<Badge badgeContent={cart.length} color="primary">
@@ -94,15 +118,3 @@ const Header = () => {
 };
 
 export default Header;
-
-        // <Navbar.Brand>
-        //   <Link to="/">Shopping Cart</Link>
-        // </Navbar.Brand>
-				// <Link to="/cart">
-				// 	<div>
-        //     <Dropdown.Toggle variant="success">
-        //       <FaShoppingCart color="white" fontSize="25px" />
-        //       <Badge>{cart.length}</Badge>
-        //     </Dropdown.Toggle>
-        // </div>
-				// </Link>

@@ -7,6 +7,7 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import styled from "styled-components";
 import { formatPrice } from "../context/Utils";
+import toast from 'react-simple-toasts';
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -219,6 +220,7 @@ const Cart = () => {
 	const [total, setTotal] = useState();
 	const [discount, setDiscount] = useState("");
 	const [valueDiscount, setValueDiscount] = useState(0);
+	const [user, setUser] = useState({}); 
 	
   useEffect(() => {
     setTotal(
@@ -226,10 +228,24 @@ const Cart = () => {
     );
   }, [cart]);
 	
+	useEffect(() => {
+		if(localStorage.hasOwnProperty('login')){
+			setUser(JSON.parse(localStorage.getItem("login")));
+		}
+	}, []);
+	
 	function applyCoupon() {
 		if(discount.toUpperCase() === "UTFPR"){
 			return total - valueDiscount;
 		} else return total;
+	}
+	
+	const checkout = () => {
+		toast('Compra Finalizada com sucesso!');
+		dispatch({
+			type: "CLEAN_CART",
+			// payload: ,
+		});
 	}
 	
   return (
@@ -339,9 +355,15 @@ const Cart = () => {
 									setValueDiscount(total * 0.15);
 								}}
 								/>
-						 	<Link to="/checkout" style={{"textDecoration": "none", "color": "black"}}>
-             	<Button>Fazer Checkout</Button>
-						</Link>
+             	{
+								cart.length !== 0  ?
+									Object.keys(user).length === 0 ?  
+										<Link to="/login" style={{"textDecoration": "none", "color": "black"}}>
+											<Button>Fazer login</Button>
+										</Link>
+									: <Button onClick={checkout}>Finalizar compra</Button>
+								: <div></div>
+							}
            </Summary> 
 	 			</Bottom>
 	 		</Wrapper> 

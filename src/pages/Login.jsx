@@ -1,7 +1,7 @@
 import styled from "styled-components"
-import { Link } from  "react-router-dom";
+import { Link, Redirect } from  "react-router-dom";
 import { users } from "../data/data";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Container = styled.div`
 	width: 100vw;
@@ -97,21 +97,39 @@ const Error = styled.div`
 	margin-top: 10px;
 `;
 
+const ProgressIndicator = styled.div`
+	
+`;
+
 const Login = () => {
 	const [user, setUser] = useState({email: "", password: ""});
+	const [users, setUsers] = useState([]);
 	const [error, setError] = useState("");
 	const [details, setDetails] = useState({email: "", password: ""}); 
+	const [loading, setLoading] = useState(false);
+	const [hasUser, setHasUser] = useState(false);
+	
+	const usersLs = JSON.parse(localStorage.getItem("users"));
+	
+	useEffect(() => {
+		setUsers(usersLs);
+	}, []);
 	
 	const SubmitLogin = () => {
-		if(users.find((user) => user.email === details.email && user.password === details.password)){	
-			setUser({
-				email: details.email,
-			});
-			
+		setLoading(true);
+		const foundUser = users.find(us => {
+			return us.email === details.email && us.password === details.password;
+		});
+	
+		if(foundUser){
+			setHasUser(true);	
+			localStorage.setItem('login', JSON.stringify(foundUser));
+			<Redirect to='/'  />	
 			setError("");
 		} else {
 			setError("Usuário e/ou senha incorreto");
 		}
+		setLoading(false);
 	}
 	
 	const logout = () => {
@@ -122,7 +140,7 @@ const Login = () => {
 		e.preventDefault(); 
 		SubmitLogin();
 	}
-		
+	
 	return (
 		<Container>
 			<Wrapper>
@@ -153,11 +171,14 @@ const Login = () => {
 								Registrar
 							</Link>
 						</Button>
-						<Button type="submit" color="fff">
-							<Link to={`/`} style={{"textDecoration": "none", "color": "black"}}>
+						<Button type="submit" onClick={() => SubmitLogin()} color="fff">
+							<Link to={hasUser ? `/` : ""} style={{"textDecoration": "none", "color": "black"}}>
 								Entrar
 							</Link>
 						</Button>
+						{
+							loading ? <p>LOADING</p> : <div></div>
+						}
 					</ButtonContainer>
 				</Form>
 				<LinkRecoverPassword>Esqueci a senha</LinkRecoverPassword>

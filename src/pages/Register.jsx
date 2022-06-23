@@ -193,7 +193,6 @@ const Register = () => {
 			});
 			localStorage.setItem('users', JSON.stringify(localUsers));
 		} else {
-			console.log(JSON.parse(localStorage.getItem("users")));
 			setError("Informações inválidas!");
 		}
 	}
@@ -209,7 +208,6 @@ const Register = () => {
 			setCity(data.localidade);
     });
 		} catch(e){
-			console.log(e);
 		}
   }
 	
