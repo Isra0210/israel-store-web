@@ -69,8 +69,6 @@ const Header = () => {
 	const logout = () => {
 		localStorage.removeItem('login', JSON.stringify(user));
 		setUser({});
-		console.log(user);
-		// console.log(JSON.parse(localStorage.getItem("login")));
 	}
 	
   return (

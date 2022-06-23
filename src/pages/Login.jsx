@@ -77,29 +77,12 @@ const LinkRecoverPassword = styled.a`
 	font-weight: 200;
 `;	
 
-const Submit = styled.input`
-	color: white;
-	margin: 10px;
-	padding: 8px;
-	cursor: pointer;
-	background-color: #${props => props.color};
-	color: ${props => props.type === "register" && "white"};
-	border: 1px solid #54626F;
-	border-radius: 26px;
-	font-size: 16px; 
-	box-shadow: 0.5px 0.5px black;
-	width: 50%;
-`;
-
 const Error = styled.div`
 	color: red;
 	font-size: 14px;
 	margin-top: 10px;
 `;
 
-const ProgressIndicator = styled.div`
-	
-`;
 
 const Login = () => {
 	const [user, setUser] = useState({email: "", password: ""});

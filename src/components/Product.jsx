@@ -63,8 +63,6 @@ const Price = styled.p`
 
 const Product = ({ prod }) => {
   const {
-    state: { cart },
-    dispatch,
   } = CartState();
 	
 	const [open, setOpen] = useState(false);
